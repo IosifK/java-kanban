@@ -1,9 +1,9 @@
 package ru.yandex.javacource.kulpinov.schedule;
-import ru.yandex.javacource.kulpinov.schedule.Manager.TaskManager;
-import ru.yandex.javacource.kulpinov.schedule.Task.Epic;
-import ru.yandex.javacource.kulpinov.schedule.Task.Status;
-import ru.yandex.javacource.kulpinov.schedule.Task.SubTask;
-import ru.yandex.javacource.kulpinov.schedule.Task.Task;
+import ru.yandex.javacource.kulpinov.schedule.manager.TaskManager;
+import ru.yandex.javacource.kulpinov.schedule.task.Epic;
+import ru.yandex.javacource.kulpinov.schedule.task.Status;
+import ru.yandex.javacource.kulpinov.schedule.task.SubTask;
+import ru.yandex.javacource.kulpinov.schedule.task.Task;
 
 public class Main {
 

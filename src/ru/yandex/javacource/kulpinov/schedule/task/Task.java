@@ -1,4 +1,4 @@
-package ru.yandex.javacource.kulpinov.schedule.Task;
+package ru.yandex.javacource.kulpinov.schedule.task;
 
 import java.util.Objects;
 

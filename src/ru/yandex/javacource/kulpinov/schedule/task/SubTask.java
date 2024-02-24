@@ -1,4 +1,4 @@
-package ru.yandex.javacource.kulpinov.schedule.Task;
+package ru.yandex.javacource.kulpinov.schedule.task;
 
 public class SubTask extends Task {
     private int epicId;
