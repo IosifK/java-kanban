@@ -1,77 +1,105 @@
 package ru.yandex.javacource.kulpinov.schedule;
+
 import ru.yandex.javacource.kulpinov.schedule.manager.TaskManager;
 import ru.yandex.javacource.kulpinov.schedule.task.Epic;
 import ru.yandex.javacource.kulpinov.schedule.task.Status;
 import ru.yandex.javacource.kulpinov.schedule.task.SubTask;
 import ru.yandex.javacource.kulpinov.schedule.task.Task;
+import ru.yandex.javacource.kulpinov.schedule.manager.Managers;
+
 
 public class Main {
 
     public static void main(String[] args) {
-        TaskManager manager = new TaskManager();
 
-        // создаю задачи
-        Task task1 = new Task("Задача 1", "Опсиание 1", Status.NEW);
-        Task task2 = new Task("Задача 2", "Опсиание 2", Status.NEW);
-        manager.addTask(task1);
-        manager.addTask(task2);
-
-        // создаю эпики и подзадачи
-        Epic epic1 = new Epic("Эпик 1", "Описание эпика 1 ", Status.NEW);
-        manager.addEpic(epic1);
-        SubTask subTask1 = new SubTask("Подзадача 1", "Описание 1", Status.NEW, epic1.getId());
-        SubTask subTask2 = new SubTask("Подзадача 2", "Описание 2", Status.NEW, epic1.getId());
-        manager.addSubTask(subTask1);
-        manager.addSubTask(subTask2);
-
-        Epic epic2 = new Epic("Эпик 2", "Описание эпика 2", Status.NEW);
-        manager.addEpic(epic2);
-        SubTask subTask3 = new SubTask("Подзадача 3", "Описание для подзадачи 3", Status.NEW, epic2.getId());
-        manager.addSubTask(subTask3);
-
-        // Печать всех задач, подзадач и эпиков
-        System.out.println("Все задачи: " + manager.getAllTasks());
-        System.out.println("Все подзадачи: " + manager.getAllSubTasks());
-        System.out.println("Все эпики: " + manager.getAllEpics());
-
-        // Изменение статусов
-        task1.setStatus(Status.DONE);
-        subTask1.setStatus(Status.DONE);
-        subTask2.setStatus(Status.IN_PROGRESS);
-        subTask3.setStatus(Status.NEW);
-        manager.updateTask(task1);
-        manager.updateTask(subTask1);
-        manager.updateTask(subTask2);
-        manager.updateTask(subTask3);
-
-        // Повторная печать задач после изменения статусов
-        System.out.println("Изменили статус: " + manager.getAllTasks());
-        System.out.println("Изменили статус: " + manager.getAllSubTasks());
-        System.out.println("Изменили статус: " + manager.getAllEpics());
-
-        // Удаление задачи и эпика
-        manager.deleteTask(task1.getId());
-        manager.deleteTask(epic1.getId());
-
-        // Печать задач после удаления
-        System.out.println("Задачи после удаления: " + manager.getAllTasks());
-        System.out.println("Подзадачи после удаления: " + manager.getAllSubTasks());
-        System.out.println("Эпики после удаления " + manager.getAllEpics());
-
-        manager.deleteSubTask(subTask1.getId());
-        System.out.println("Эпик после удаления подзадачи: " + manager.getAllSubTasksFromEpic(epic1.getId()));
-        System.out.println("Статус эпика 1: " + epic1.getStatus());
+        TaskManager taskManager = Managers.getDefault();
 
 
-        System.out.println("подзадачт эпика 1: " + manager.getAllSubTasksFromEpic(epic1.getId()));
+        Task task1 = new Task("Задача 1", "Описнаие 1", Status.NEW);
+        taskManager.addTask(task1);
 
-        manager.deleteSubTask(subTask1.getId());
-        System.out.println("Эпик после удаления подзадач: " + manager.getAllSubTasksFromEpic(epic1.getId()));
+        Task task2 = new Task("Задача 2", "Описание 2", Status.IN_PROGRESS);
+        taskManager.addTask(task2);
 
-        System.out.println("Все задачи: " + manager.getAllTasks());
-        System.out.println("Все подзадачи: " + manager.getAllSubTasks());
-        System.out.println("Все эпики: " + manager.getAllEpics());
+        Task task3 = new Task("Задача 3", "Описание 3", Status.NEW, 2);
+        taskManager.addTask(task3);
 
+        Epic epic1 = new Epic("Эпик 1", "Описание эпика 1", Status.NEW);
+        taskManager.addEpic(epic1);
+
+        SubTask subTask1 = new SubTask("Подзадача 1", "Описание подзадача 1", Status.NEW, epic1.getId());
+        taskManager.addSubTask(subTask1);
+
+        SubTask subTask2 = new SubTask("Подзадача 2", "Описание подзадачи 2", Status.DONE, epic1.getId());
+        taskManager.addSubTask(subTask2);
+
+        SubTask subTask3 = new SubTask("Подзадача 3", "Описание подзадачи 3", Status.IN_PROGRESS, epic1.getId(), 5);
+        taskManager.addSubTask(subTask3);
+
+        Epic epic2 = new Epic("Эпик 1", "Описание эпика 1", Status.NEW, 6);
+        taskManager.addEpic(epic2);
+
+
+        System.out.println("Все задачи:");
+        for (Task task : taskManager.getAllTasks()) {
+            printTaskInfo(task);
+        }
+
+
+        System.out.println("\nВсе подзадачи:");
+        for (SubTask subTask : taskManager.getAllSubTasks()) {
+            printTaskInfo(subTask);
+        }
+
+
+        System.out.println("\nВсе эпики:");
+        for (Epic epic : taskManager.getAllEpics()) {
+            printTaskInfo(epic);
+        }
+
+
+        System.out.println("\nВзять задачу по ID и история:");
+        Task retrievedTask = taskManager.getTaskByID(task1.getId());
+        printTaskInfo(retrievedTask);
+
+        Task retrievedSubTask1 = taskManager.getSubtaskByID(subTask1.getId());
+        printTaskInfo(retrievedSubTask1);
+
+        System.out.println("\nИстория:");
+        for (Task task : taskManager.getHistory()) {
+            printTaskInfo(task);
+        }
+
+
+        task1.setStatus(Status.IN_PROGRESS);
+        taskManager.updateTask(task1);
+
+        epic1.setName("Обновленый Эпик 1");
+        taskManager.updateEpic(epic1);
+
+
+        taskManager.deleteTask(task1.getId());
+        taskManager.deleteSubTask(subTask1.getId());
+        taskManager.deleteEpic(epic1.getId());
+
+
+        taskManager.clearTask();
+        taskManager.clearSubtask();
+        taskManager.clearEpic();
+    }
+
+
+    private static void printTaskInfo(Task task) {
+        System.out.println("ID: " + task.getId());
+        System.out.println("Name: " + task.getName());
+        System.out.println("Description: " + task.getDescription());
+        System.out.println("Status: " + task.getStatus());
+        System.out.println();
     }
 }
+
+
+
+
+
 
