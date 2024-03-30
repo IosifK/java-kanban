@@ -8,12 +8,13 @@ import ru.yandex.javacource.kulpinov.schedule.task.Task;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class InMemoryTaskManager implements TaskManager {
     private int Id = 0;
-    private final HashMap<Integer, Task> tasks = new HashMap<>();
-    private final HashMap<Integer, SubTask> subTasks = new HashMap<>();
-    private final HashMap<Integer, Epic> epics = new HashMap<>();
+    private final Map<Integer, Task> tasks = new HashMap<>();
+    private final Map<Integer, SubTask> subTasks = new HashMap<>();
+    private final Map<Integer, Epic> epics = new HashMap<>();
 
     private final HistoryManager historyManager = Managers.getDefaultHistory();
 
@@ -23,55 +24,26 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
 
-    private boolean isIdOccupied(int id) {
-        boolean meaning = true;
-        if (id != 0) {
-            if (tasks.containsKey(id) || subTasks.containsKey(id) || epics.containsKey(id)) {
-                meaning = false;
-            }
-        }
-        return meaning;
-    }
-
-    @Override
     public void addTask(Task task) {
-        if (task.getId() == 0) {
-            task.setId(generateId());
-            tasks.put(task.getId(), task);
-        } else if (isIdOccupied(task.getId())) {
-            tasks.put(task.getId(), task);
-        }
+        task.setId(generateId());
+        tasks.put(task.getId(), task);
     }
 
-
-    @Override
     public void addSubTask(SubTask subTask) {
         Epic epic = epics.get(subTask.getEpicId());
-        if (epic == null) {
-            System.out.println("эпик с id " + subTask.getEpicId() + " не найдет");
-            return;
-        }
-        if (subTask.getId() == 0) {
+        if (epic != null) {
             subTask.setId(generateId());
             subTasks.put(subTask.getId(), subTask);
             epic.addSubtask(subTask.getId());
             updateEpicStatus(epic);
-        } else if (isIdOccupied(subTask.getId())) {
-            subTasks.put(subTask.getId(), subTask);
-            epic.addSubtask(subTask.getId());
-            updateEpicStatus(epic);
+        } else {
+            System.out.println("эпик с id " + subTask.getEpicId() + " не найдет");
         }
     }
 
-
-    @Override
     public void addEpic(Epic epic) {
-        if(epic.getId() == 0) {
-            epic.setId(generateId());
-            epics.put(epic.getId(), epic);
-        } else if (isIdOccupied(epic.getId())) {
-            epics.put(epic.getId(), epic);
-        }
+        epic.setId(generateId());
+        epics.put(epic.getId(), epic);
     }
 
 
@@ -81,6 +53,7 @@ public class InMemoryTaskManager implements TaskManager {
             tasks.put(task.getId(), task);
         }
     }
+
 
     @Override
     public void updateSubTask(SubTask subTask) {
@@ -96,12 +69,13 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void updateEpic(Epic epic) {
-        Epic savedEpic = epics.get(epic.getId());
+        final Epic savedEpic = epics.get(epic.getId());
         if (savedEpic == null) {
             return;
         }
-        savedEpic.setName(epic.getName());
-        savedEpic.setDescription(epic.getDescription());
+        epic.setSubtaskIds(savedEpic.getSubtasks());
+        epic.setStatus(savedEpic.getStatus());
+        epics.put(epic.getId(), epic);
     }
 
 
@@ -215,20 +189,23 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Task getTaskByID(int id) {
-        historyManager.add(tasks.get(id));
-        return tasks.get(id);
+        Task task = tasks.get(id);
+        historyManager.add(task);
+        return task;
     }
 
     @Override
     public SubTask getSubtaskByID(int id) {
-        historyManager.add(subTasks.get(id));
-        return subTasks.get(id);
+        SubTask subTask = subTasks.get(id);
+        historyManager.add(subTask);
+        return subTask;
     }
 
     @Override
     public Epic getEpicByID(int id) {
-        historyManager.add(epics.get(id));
-        return epics.get(id);
+        Epic epic = epics.get(id);
+        historyManager.add(epic);
+        return epic;
     }
 
     @Override

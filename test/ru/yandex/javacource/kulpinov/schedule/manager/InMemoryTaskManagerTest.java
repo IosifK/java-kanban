@@ -14,7 +14,7 @@ class InMemoryTaskManagerTest {
 
 
     @Test
-    public void testInMemoryTaskManagerAddsAndFindsVariousTaskTypesById(){
+    public void testInMemoryTaskManagerAddsAndFindsVariousTaskTypesById() {
         TaskManager taskManager = Managers.getDefault();
 
         Task task = new Task("Задача 1", "Описнаие 1", Status.NEW);
@@ -33,19 +33,20 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    public void testTaskIdConflictsHandling(){
+    public void testTaskIdConflictsHandling() {
 
         TaskManager taskManager = Managers.getDefault();
-        Task task1 = new Task("Задача 1", "Описнаие 1", Status.NEW, 10);
+        Task task1 = new Task("Задача 1", "Описнаие 1", Status.NEW);
         Task task2 = new Task("Задача 2", "Описнаие 2", Status.NEW);
 
         taskManager.addTask(task1);
         taskManager.addTask(task2);
 
-        assertNotNull(taskManager.getTaskByID(10));
+        assertNotNull(taskManager.getTaskByID(2));
         assertNotNull(taskManager.getTaskByID(task2.getId()));
         assertNotEquals(task1.getId(), task2.getId());
     }
+
     @Test
     public void shouldPreserveTaskIntegrity() {
         TaskManager taskManager = Managers.getDefault();
@@ -155,6 +156,7 @@ class InMemoryTaskManagerTest {
         assertNotNull(subTask1);
         assertEquals("Обновленная подзадача", subTask1.getName());
     }
+
 }
 
 

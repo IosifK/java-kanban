@@ -21,8 +21,6 @@ public class Main {
         Task task2 = new Task("Задача 2", "Описание 2", Status.IN_PROGRESS);
         taskManager.addTask(task2);
 
-        Task task3 = new Task("Задача 3", "Описание 3", Status.NEW, 2);
-        taskManager.addTask(task3);
 
         Epic epic1 = new Epic("Эпик 1", "Описание эпика 1", Status.NEW);
         taskManager.addEpic(epic1);
@@ -32,12 +30,6 @@ public class Main {
 
         SubTask subTask2 = new SubTask("Подзадача 2", "Описание подзадачи 2", Status.DONE, epic1.getId());
         taskManager.addSubTask(subTask2);
-
-        SubTask subTask3 = new SubTask("Подзадача 3", "Описание подзадачи 3", Status.IN_PROGRESS, epic1.getId(), 5);
-        taskManager.addSubTask(subTask3);
-
-        Epic epic2 = new Epic("Эпик 1", "Описание эпика 1", Status.NEW, 6);
-        taskManager.addEpic(epic2);
 
 
         System.out.println("Все задачи:");
@@ -97,9 +89,6 @@ public class Main {
         System.out.println();
     }
 }
-
-
-
 
 
 

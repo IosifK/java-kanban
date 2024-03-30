@@ -9,14 +9,19 @@ import java.util.List;
 public class InMemoryHistoryManager implements HistoryManager {
 
     private final LinkedList<Task> history = new LinkedList<>();
-    private int maxViewedTaskCapacity = 10;
+    private static final int MAX_VIEWEDT_TASK_CAPACITY = 10;
 
     @Override
     public <T extends Task> void add(T task) {
-        if (history.contains(task)) {
-            history.remove(task);
+
+        if (task == null) {
+            return;
         }
-        if (history.size() >= maxViewedTaskCapacity) {
+
+        if (history.contains(task)) {
+            return;
+        }
+        if (history.size() >= MAX_VIEWEDT_TASK_CAPACITY) {
             history.removeFirst();
         }
         history.addLast(task);

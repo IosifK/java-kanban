@@ -12,8 +12,8 @@ class EpicTest {
     @Test
     public void Epic() {
 
-        Epic epic = new Epic("Эпик 1", "Описание 1", Status.NEW, 2);
-        Epic epic2 = new Epic("Эпик 1", "Описание 1", Status.NEW, 2);
+        Epic epic = new Epic("Эпик 1", "Описание 1", Status.NEW);
+        Epic epic2 = new Epic("Эпик 1", "Описание 1", Status.NEW);
         assertEquals(epic, epic2, "Экземпляры классов Epic не равны при равных ID");
 
     }

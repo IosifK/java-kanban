@@ -1,9 +1,10 @@
 package ru.yandex.javacource.kulpinov.schedule.task;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Epic extends Task {
-    private final ArrayList<Integer> subTasks;
+    private List<Integer> subTasks;
 
     public Epic(String name, String description, Status status) {
         super(name, description, status);
@@ -15,7 +16,8 @@ public class Epic extends Task {
         this.subTasks = new ArrayList<>();
     }
 
-    public ArrayList<Integer> getSubtasks() {
+
+    public List<Integer> getSubtasks() {
 
         return subTasks;
     }
@@ -24,6 +26,10 @@ public class Epic extends Task {
     public void addSubtask(Integer subtask) {
 
         subTasks.add(subtask);
+    }
+
+    public void setSubtaskIds(List<Integer> addSubTasks) {
+        subTasks = addSubTasks;
     }
 
     public void removeSubtask(Integer subtask) {

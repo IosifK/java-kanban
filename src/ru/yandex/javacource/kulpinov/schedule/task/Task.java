@@ -21,6 +21,7 @@ public class Task {
         this.id = id;
     }
 
+
     public String getName() {
         return name;
     }
@@ -66,12 +67,13 @@ public class Task {
 
     @Override
     public int hashCode() {
+
         return Objects.hash(name, description, id, status);
     }
 
     @Override
     public String toString() {
-        return "ru.yandex.javacource.kulpinov.schedule.ru.yandex.javacource.kulpinov.schedule.Task.ru.yandex.javacource.kulpinov.schedule.Task{" +
+        return "Task{" +
                 "taskName='" + name + '\'' +
                 ", taskDescription='" + description + '\'' +
                 ", taskStatus=" + status +

@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ManagersTest {
     @Test
-    public void Managers(){
+    public void Managers() {
         TaskManager taskManager = Managers.getDefault();
         HistoryManager historyManager = Managers.getDefaultHistory();
 
