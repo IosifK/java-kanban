@@ -50,12 +50,15 @@ public class Main {
         }
 
 
-        System.out.println("\nВзять задачу по ID и история:");
-        Task retrievedTask = taskManager.getTaskByID(task1.getId());
-        printTaskInfo(retrievedTask);
+        //Проверка корректности вывода истории
+        System.out.println("Взял задачи по ID:");
+        Task retrievedTask1 = taskManager.getTaskByID(task1.getId());
+        Task retrievedTask2 = taskManager.getTaskByID(task2.getId());
 
-        Task retrievedSubTask1 = taskManager.getSubtaskByID(subTask1.getId());
-        printTaskInfo(retrievedSubTask1);
+        System.out.println("Обновил задачу по номером 1:");
+        Task task3 = new Task("Обновленная Задача 3(1)", "Описание 3", Status.IN_PROGRESS, task1.getId());
+        taskManager.updateTask(task3);
+        Task retrievedTask3 = taskManager.getTaskByID(task3.getId());
 
         System.out.println("\nИстория:");
         for (Task task : taskManager.getHistory()) {
@@ -78,6 +81,8 @@ public class Main {
         taskManager.clearTask();
         taskManager.clearSubtask();
         taskManager.clearEpic();
+
+
     }
 
 
@@ -89,6 +94,8 @@ public class Main {
         System.out.println();
     }
 }
+
+
 
 
 
