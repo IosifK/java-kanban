@@ -59,6 +59,7 @@ public class Main {
         Task task3 = new Task("Обновленная Задача 3(1)", "Описание 3", Status.IN_PROGRESS, task1.getId());
         taskManager.updateTask(task3);
         Task retrievedTask3 = taskManager.getTaskByID(task3.getId());
+        taskManager.clearTask();
 
         System.out.println("\nИстория:");
         for (Task task : taskManager.getHistory()) {

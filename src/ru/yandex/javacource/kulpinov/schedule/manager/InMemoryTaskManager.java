@@ -5,10 +5,7 @@ import ru.yandex.javacource.kulpinov.schedule.task.Status;
 import ru.yandex.javacource.kulpinov.schedule.task.SubTask;
 import ru.yandex.javacource.kulpinov.schedule.task.Task;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class InMemoryTaskManager implements TaskManager {
     private int Id = 0;
@@ -82,6 +79,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void deleteTask(int taskId) {
         tasks.remove(taskId);
+        clearHistoryForIds(Collections.singletonList(taskId));
 
     }
 
@@ -95,19 +93,24 @@ public class InMemoryTaskManager implements TaskManager {
                 updateEpicStatus(epic);
             }
         }
+        clearHistoryForIds(Collections.singletonList(subTaskId));
     }
 
 
     @Override
     public void deleteEpic(int epicId) {
-        Epic epic = epics.remove(epicId);
-        if (epic != null) {
-            for (Integer subTask : epic.getSubtasks()) {
-                subTasks.remove(subTask);
+        if (epics.containsKey(epicId)) {
+            Epic epic = epics.remove(epicId);
+            if (epic != null) {
+                List<Integer> subTaskIds = new ArrayList<>(epic.getSubtasks());
+                for (Integer subTaskId : subTaskIds) {
+                    subTasks.remove(subTaskId);
+                }
+                clearHistoryForIds(subTaskIds);
             }
+            clearHistoryForIds(Collections.singletonList(epicId));
         }
     }
-
 
     private void updateEpicStatus(Epic epic) {
         boolean hasNew = false;
@@ -155,21 +158,31 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void clearTask() {
+        clearHistoryForIds(new ArrayList<>(tasks.keySet()));
         tasks.clear();
     }
 
     @Override
     public void clearEpic() {
+        clearHistoryForIds(new ArrayList<>(epics.keySet()));
+        clearHistoryForIds(new ArrayList<>(subTasks.keySet()));
         epics.clear();
         subTasks.clear();
     }
 
     @Override
     public void clearSubtask() {
+        clearHistoryForIds(new ArrayList<>(subTasks.keySet()));
         subTasks.clear();
         for (Epic epic : epics.values()) {
             epic.getSubtasks().clear();
             updateEpicStatus(epic);
+        }
+    }
+
+    private void clearHistoryForIds(Collection<Integer> ids) {
+        for (Integer id : ids) {
+            historyManager.remove(id);
         }
     }
 
@@ -207,6 +220,7 @@ public class InMemoryTaskManager implements TaskManager {
         historyManager.add(epic);
         return epic;
     }
+
 
     @Override
     public List<Task> getHistory() {
