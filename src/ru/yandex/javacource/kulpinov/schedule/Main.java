@@ -12,11 +12,9 @@ import java.io.File;
 import java.util.List;
 
 public class Main {
-
     public static void main(String[] args) {
 
-        File file = new File("tasks.csv");
-        FileBackedTaskManager taskManager = (FileBackedTaskManager) Managers.getFileBackedTasksManager(file.toPath());
+        FileBackedTaskManager taskManager = (FileBackedTaskManager) Managers.getDefault();
 
 
         Task task1 = new Task("Задача 1", "Описание 1", Status.NEW);
@@ -24,7 +22,6 @@ public class Main {
 
         Task task2 = new Task("Задача 2", "Описание 2", Status.IN_PROGRESS);
         taskManager.addTask(task2);
-
 
         Epic epic1 = new Epic("Эпик 1", "Описание эпика 1", Status.NEW);
         taskManager.addEpic(epic1);
@@ -51,9 +48,11 @@ public class Main {
             printTaskInfo(epic);
         }
 
+
         System.out.println("\nВзял задачи по ID:");
         Task retrievedTask1 = taskManager.getTaskByID(task1.getId());
         Task retrievedTask2 = taskManager.getTaskByID(task2.getId());
+
 
         System.out.println("\nОбновил задачу по номером 1:");
         Task task3 = new Task("Обновленная Задача 3(1)", "Описание 3", Status.IN_PROGRESS);
@@ -68,7 +67,7 @@ public class Main {
         }
 
 
-        taskManager = FileBackedTaskManager.loadFromFile(file);
+        taskManager = FileBackedTaskManager.loadFromFile(new File("resources/task.csv"));
 
 
         System.out.println("\nВсе задачи из файла:");
@@ -106,6 +105,7 @@ public class Main {
         System.out.println();
     }
 }
+
 
 
 
