@@ -22,6 +22,7 @@ public class Task {
     }
 
 
+
     public String getName() {
         return name;
     }
@@ -55,6 +56,10 @@ public class Task {
     public void setId(int id) {
 
         this.id = id;
+    }
+
+    public TaskType getType() {
+        return TaskType.TASK;
     }
 
     @Override

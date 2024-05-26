@@ -8,39 +8,46 @@ import ru.yandex.javacource.kulpinov.schedule.task.Task;
 import java.util.*;
 
 public class InMemoryTaskManager implements TaskManager {
-    private int Id = 0;
-    private final Map<Integer, Task> tasks = new HashMap<>();
-    private final Map<Integer, SubTask> subTasks = new HashMap<>();
-    private final Map<Integer, Epic> epics = new HashMap<>();
+    protected int Id = 0;
+    protected final Map<Integer, Task> tasks = new HashMap<>();
+    protected final Map<Integer, SubTask> subTasks = new HashMap<>();
+    protected final Map<Integer, Epic> epics = new HashMap<>();
 
-    private final HistoryManager historyManager = Managers.getDefaultHistory();
+    protected final HistoryManager historyManager = Managers.getDefaultHistory();
 
-    private int generateId() {
+    protected int generateId() {
 
         return ++Id;
     }
 
 
-    public void addTask(Task task) {
-        task.setId(generateId());
-        tasks.put(task.getId(), task);
-    }
-
-    public void addSubTask(SubTask subTask) {
-        Epic epic = epics.get(subTask.getEpicId());
-        if (epic != null) {
-            subTask.setId(generateId());
-            subTasks.put(subTask.getId(), subTask);
-            epic.addSubtask(subTask.getId());
-            updateEpicStatus(epic);
-        } else {
-            System.out.println("эпик с id " + subTask.getEpicId() + " не найдет");
+    public Integer addSubTask(SubTask subtask) {
+        final int epicId = subtask.getEpicId();
+        Epic epic = epics.get(epicId);
+        if (epic == null) {
+            return null;
         }
+        final int id = generateId();
+        subtask.setId(id);
+        subTasks.put(id, subtask);
+        epic.addSubtask(subtask.getId());
+        updateEpicStatus(epic);
+        return id;
+    }
+    public int addTask(Task task) {
+        final int id = generateId();
+        task.setId(id);
+        tasks.put(id, task);
+        return id;
     }
 
-    public void addEpic(Epic epic) {
-        epic.setId(generateId());
-        epics.put(epic.getId(), epic);
+
+    public int addEpic(Epic epic) {
+        final int id = generateId();
+        epic.setId(id);
+        epics.put(id, epic);
+        return id;
+
     }
 
 
@@ -118,6 +125,9 @@ public class InMemoryTaskManager implements TaskManager {
         boolean hasDone = false;
         for (Integer subTaskID : epic.getSubtasks()) {
             SubTask subTask = subTasks.get(subTaskID);
+            if (subTask == null) {
+                continue;
+            }
             switch (subTask.getStatus()) {
                 case NEW:
                     hasNew = true;

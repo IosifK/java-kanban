@@ -24,7 +24,6 @@ public class Epic extends Task {
 
 
     public void addSubtask(Integer subtask) {
-
         subTasks.add(subtask);
     }
 
@@ -35,6 +34,10 @@ public class Epic extends Task {
     public void removeSubtask(Integer subtask) {
 
         subTasks.remove(subtask);
+    }
+
+    public TaskType getType() {
+        return TaskType.EPIC;
     }
 
 }
