@@ -55,29 +55,8 @@ public class Epic extends Task {
         return endTime;
     }
 
-
-
-   public void calculateEpicTimes(List<SubTask> subTasks) {
-       LocalDateTime earliestStartTime = subTasks.stream()
-               .filter(subTask -> subTask.getStartTime() != null)
-               .map(SubTask::getStartTime)
-               .min(LocalDateTime::compareTo)
-               .orElse(null);
-
-       LocalDateTime latestEndTime = subTasks.stream()
-               .filter(subTask -> subTask.getEndTime() != null)
-               .map(SubTask::getEndTime)
-               .max(LocalDateTime::compareTo)
-               .orElse(null);
-
-       Duration totalDuration = subTasks.stream()
-               .filter(subTask -> subTask.getDuration() != null)
-               .map(SubTask::getDuration)
-               .reduce(Duration.ZERO, Duration::plus);
-
-       setStartTime(earliestStartTime);
-       this.endTime = latestEndTime;
-       setDuration(totalDuration);
-   }
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
+    }
 
 }
