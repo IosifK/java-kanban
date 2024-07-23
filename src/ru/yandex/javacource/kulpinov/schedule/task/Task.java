@@ -1,5 +1,7 @@
 package ru.yandex.javacource.kulpinov.schedule.task;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Task {
@@ -7,6 +9,8 @@ public class Task {
     private String description;
     private int id;
     private Status status;
+    private Duration duration;
+    private LocalDateTime startTime;
 
     public Task(String name, String description, Status status) {
         this.name = name;
@@ -21,7 +25,22 @@ public class Task {
         this.id = id;
     }
 
+    public Task(String name, String description, Status status, Duration duration, LocalDateTime startTime) {
+        this.name = name;
+        this.description = description;
+        this.status = status;
+        this.duration = duration;
+        this.startTime = startTime;
+    }
 
+    public Task(String name, String description, int id, Status status, Duration duration, LocalDateTime startTime) {
+        this.name = name;
+        this.description = description;
+        this.id = id;
+        this.status = status;
+        this.duration = duration;
+        this.startTime = startTime;
+    }
 
     public String getName() {
         return name;
@@ -56,6 +75,29 @@ public class Task {
     public void setId(int id) {
 
         this.id = id;
+    }
+
+    public Duration getDuration() {
+        return duration;
+    }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public void setDuration(Duration duration) {
+        this.duration = duration;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public LocalDateTime getEndTime() {
+        if (startTime != null && duration != null) {
+            return startTime.plus(duration);
+        }
+        return null;
     }
 
     public TaskType getType() {

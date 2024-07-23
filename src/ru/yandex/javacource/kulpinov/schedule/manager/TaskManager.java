@@ -48,4 +48,6 @@ public interface TaskManager {
     Epic getEpicByID(int id);
 
     List<Task> getHistory();
+
+    List<Task> getPrioritizedTasks();
 }

@@ -10,8 +10,8 @@ class ManagersTest {
         TaskManager taskManager = Managers.getDefault();
         HistoryManager historyManager = Managers.getDefaultHistory();
 
-        assertNotNull(taskManager, "Не возвращает экземпляр");
-        assertNotNull(historyManager, "Не возвращает экземпляр");
+        assertNotNull(taskManager);
+        assertNotNull(historyManager);
 
     }
 
