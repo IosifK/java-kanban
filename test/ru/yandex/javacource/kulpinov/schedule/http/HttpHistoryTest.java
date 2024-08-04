@@ -42,7 +42,7 @@ public class HttpHistoryTest {
 
     @Test
     public void testGetHistory() throws IOException, InterruptedException {
-        Task task = new Task("Задача", "Описание", Status.NEW, Duration.ofMinutes(5), LocalDateTime.now());
+        Task task = new Task("Задача 1", "Описание", Status.NEW, Duration.ofMinutes(5), LocalDateTime.now());
         int id = manager.addTask(task);
         manager.getTaskByID(id);
 
