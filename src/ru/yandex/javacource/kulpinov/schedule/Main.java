@@ -27,11 +27,11 @@ public class Main {
         Epic epic1 = new Epic("Эпик 1", "Описание эпика 1", Status.NEW);
         taskManager.addEpic(epic1);
 
-        SubTask subTask1 = new SubTask("Подзадача 1", "Описание подзадачи 1", Status.NEW, Duration.ofMinutes(30), LocalDateTime.now().plusMinutes(180), epic1.getId());
-        taskManager.addSubTask(subTask1);
+        //SubTask subTask1 = new SubTask("Подзадача 1", "Описание подзадачи 1", Status.NEW, Duration.ofMinutes(30), LocalDateTime.now().plusMinutes(180), epic1.getId());
+        //taskManager.addSubTask(subTask1);
 
-        SubTask subTask2 = new SubTask("Подзадача 2", "Описание подзадачи 2", Status.DONE, Duration.ofMinutes(45), LocalDateTime.now().plusMinutes(210), epic1.getId());
-        taskManager.addSubTask(subTask2);
+        //SubTask subTask2 = new SubTask("Подзадача 2", "Описание подзадачи 2", Status.DONE, Duration.ofMinutes(45), LocalDateTime.now().plusMinutes(210), epic1.getId());
+        //taskManager.addSubTask(subTask2);
 
         System.out.println("Все задачи:");
         for (Task task : taskManager.getAllTasks()) {
@@ -68,3 +68,4 @@ public class Main {
         System.out.println();
     }
 }
+
