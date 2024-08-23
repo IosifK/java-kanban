@@ -34,6 +34,7 @@ public class InMemoryTaskManager implements TaskManager {
         return id;
     }
 
+
     @Override
     public Integer addSubTask(SubTask subTask) {
         checkForIntersections(subTask);
@@ -52,6 +53,7 @@ public class InMemoryTaskManager implements TaskManager {
         updateEpic(epicId);
         return id;
     }
+
 
     public int addEpic(Epic epic) {
         final int id = generateId();
